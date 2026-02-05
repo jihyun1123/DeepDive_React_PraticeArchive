@@ -1,0 +1,25 @@
+.form {
+  display: flex;
+  gap: 8px;
+}
+
+.input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+
+.button {
+  white-space: nowrap;
+  background-color: rgb(232, 192, 255);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: rgb(216, 162, 255);
+}

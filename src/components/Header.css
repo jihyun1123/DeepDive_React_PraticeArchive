@@ -1,0 +1,13 @@
+.header {
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.desc {
+  margin: 1rem 0 2rem;
+  opacity: 0.5;
+}
