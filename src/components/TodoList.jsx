@@ -3,6 +3,7 @@
 import TodoItem from './TodoItem';
 import EmptyState from './EmptyState';
 import './TodoList.css';
+import { useRef } from 'react';
 
 function TodoList({ todos, onToggle, onDelete}){
     // 할 일 항목이 없을 때 빈 화면 표시
@@ -23,7 +24,8 @@ function TodoList({ todos, onToggle, onDelete}){
                     onDelete={onDelete}
                 />
             ))}
-
+            {/* 스크롤 이동을 위한 빈 요소 */}
+            <li id="list-end"></li>
         </ul>
     )
 }

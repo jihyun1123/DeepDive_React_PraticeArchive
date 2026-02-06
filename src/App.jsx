@@ -16,6 +16,11 @@ function App() {
 const addTodo = (text) => {
   const newTodo = { id: Date.now(), text, completed: false }; // 새 항목 생성
   setTodos(prev => [...prev, newTodo]); // 기존 배열 복사 후 새 항목 추가
+
+  // 추가 후 스크롤 맨 아래로 이동
+  setTimeout(() => {
+    document.getElementById('list-end').scrollIntoView({ behavior: 'smooth'} );
+  })
 };
 
 // 삭제

@@ -2,7 +2,7 @@
 
 import './TodoItem.css';
 
-function TodoItme({ todo, onToggle, onDelete}){
+function TodoItem({ todo, onToggle, onDelete}){
   return(
     <li className="item">
       <input
@@ -11,7 +11,9 @@ function TodoItme({ todo, onToggle, onDelete}){
         onChange={() => onToggle(todo.id)} // 체크박스 변경 시 토글 핸들러 호출
       />
 
-      {/* 할일 텍스트, 완료된 항목이면 취소선 적용 */}
+      {/* 할일 텍스트, 완료된 항목이면 className에 'completed' 추가 
+          completed가 추가되면, CSS에서 취소선과 불투명도 적용
+      */}
       <span className={`text ${todo.completed ? 'completed' : ''}`}>
         {todo.text}
       </span>
