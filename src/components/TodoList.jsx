@@ -4,14 +4,17 @@ import TodoItem from './TodoItem';
 import EmptyState from './EmptyState';
 import './TodoList.css';
 
-function TodoList({ todos, onToggle, onDelete }) {
-    if (todos.length === 0) {
+function TodoList({ todos, onToggle, onDelete}){
+    // 할 일 항목이 없을 때 빈 화면 표시
+    if(todos.length === 0){
         return <EmptyState />;
     }
 
-    return (
+    return(
         <ul className="list">
-            {/* 배열의 각 todo를 하나의 TodoItem 컴포넌트로 변환 */}
+            {/* 할 일 항목이 있을 때 각 항목을 TodoItem 컴포넌트로 렌더링
+                { } : JSX 내부에서 자바스크립트 표현식을 사용하기 위한 구문
+            */}
             {todos.map(todo => (
                 <TodoItem
                     key={todo.id}
@@ -20,8 +23,10 @@ function TodoList({ todos, onToggle, onDelete }) {
                     onDelete={onDelete}
                 />
             ))}
+
         </ul>
-    );
+    )
 }
+
 
 export default TodoList;

@@ -24,6 +24,7 @@ const deleteTodo = (id) => {
 };
 
 // 토글
+// 토글이란? 완료/미완료 상태를 반전시키는 것
 const toggleTodo = (id) => {
   setTodos(prev => prev.map(todo =>
     todo.id === id ? { ...todo, completed: !todo.completed } : todo
@@ -31,13 +32,14 @@ const toggleTodo = (id) => {
 };
 
 // 파생값 (state 아님!)
+// 완료된 항목의 개수 계산
 const completedCount = todos.filter(t => t.completed).length;
 
   return (
-    <div className="app secion-style">
+    <div className="app section-style">
       <Header />
       <TodoForm onAdd={addTodo} />
-      <Stats todos={todos} />
+      <Stats todos={todos} completedCount={completedCount} />
       <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} />
     </div>
   );

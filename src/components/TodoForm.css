@@ -1,22 +1,24 @@
 .form {
+  margin-top: 1rem;
   display: flex;
-  gap: 8px;
+  align-items: center;
 }
 
 .input {
+  width: 70%;
   flex: 1;
-  padding: 10px 12px;
+  padding: 0.8rem 1rem;
   border-radius: 8px;
   border: 1px solid #444;
+  margin-right: 1rem;
 }
-
 .button {
   white-space: nowrap;
   background-color: rgb(232, 192, 255);
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 10px 16px;
+  padding: 0.8rem 1rem;
   cursor: pointer;
 }
 
