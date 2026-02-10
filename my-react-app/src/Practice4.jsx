@@ -12,7 +12,8 @@ function Practice4() {
   useEffect(() => {
     const id = setInterval(() => {
       console.log('⏰ 현재 count:', count);
-      setCount(count + 1);  // 🔴 문제 코드
+      setCount(prev => prev + 1);
+      // setCount(count + 1);  // 🔴 문제 코드
     }, 1000);
 
     return () => clearInterval(id);
