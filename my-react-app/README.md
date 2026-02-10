@@ -135,25 +135,42 @@ setCount(prev => prev + 1);  // 🟢 수정
 ### 과제 A: cleanup 없는 버전
 **Q1. 첫 렌더링 시 "타이머 시작!"이 몇 번 출력되나요?**
 
-- 예상: ___
-- 실제: ___
+- 예상: 1번
+- 실제: 2번
+    => mount -> unmount -> mount를 일부러 한 번 더 시킴
+        그래서 effect가 두 번 실행 됨
 
 **Q2. count가 1초에 몇씩 증가하나요?**
 
-- 예상: ___
-- 실제: ___
+- 예상: +1
+- 실제: +2
 
 ### 과제 B: cleanup 추가
 **Q3. cleanup 추가 후 "타이머 시작!"과 "타이머 정리!"가 각각 몇 번 출력되나요?**
 
-- 타이머 시작: ___
-- 타이머 정리: ___
+- 타이머 시작: 2번
+- 타이머 정리: 1번
+
+1️⃣ mount → effect 실행 (타이머 시작)
+2️⃣ StrictMode 강제 unmount → cleanup 실행 (타이머 정리)
+3️⃣ 다시 mount → effect 실행 (타이머 시작)
 
 **Q4. count가 1초에 몇씩 증가하나요?**
 
-- 실제: ___
+- 실제: +1
 
 ### 생각해볼 것
 
 - StrictMode는 왜 일부러 2번 실행할까요?
+    - React 의도 : 이 effect가 정말 안전한가?
+    => 문제 있는 effectㄹ르 개발 단계에서 터뜨리기 위하여 2번 실행함
+
 - cleanup이 없으면 왜 타이머가 2개가 되나요?
+    - StrictMode가 effect 실행, 바로 unmount 시도
+        - 하지만 cleanup이 없으면 이전 타이머가 살아있기 때문에
+            타이머 1개 + 타이머 1개 = 2개
+
+🧠 StrictMode 한 문장 정리
+StrictMode는 개발 모드에서
+effect의 안전성을 검증하기 위해
+일부러 mount → unmount → mount를 반복한다    

@@ -17,14 +17,17 @@ function Practice5() {
 function Counter() {
   const [count, setCount] = useState(0);
 
-  // 🔴 cleanup 없는 버전
   useEffect(() => {
-    console.log('🚀 타이머 시작!');
-    const id = setInterval(() => {
-      setCount(prev => prev + 1);
-    }, 1000);
-    // cleanup 없음!
-  }, []);
+  console.log('🚀 타이머 시작!');
+  const id = setInterval(() => {
+    setCount(prev => prev + 1);
+  }, 1000);
+
+  return () => {
+    console.log('🧹 타이머 정리!');
+    clearInterval(id);
+  };
+}, []);
 
   return <p>count: {count}</p>;
 }
