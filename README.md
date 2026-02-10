@@ -172,5 +172,5 @@ setCount(prev => prev + 1);  // 🟢 수정
 
 🧠 StrictMode 한 문장 정리
 StrictMode는 개발 모드에서
-effect의 안전성을 검증하기 위해
+effect의 안전성을 검증하기 위해,
 일부러 mount → unmount → mount를 반복한다    
