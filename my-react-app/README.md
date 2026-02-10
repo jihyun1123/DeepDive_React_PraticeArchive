@@ -1,16 +1,33 @@
-# React + Vite
+## 실습 1 : 실행 순서 확인하기
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 예측해보기
 
-Currently, two official plugins are available:
+**Q1. 첫 렌더링(mount) 시 출력 순서는?**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```
+나의 예측:
+1. 렌더링 시작, count : 0
+3. 렌더링 끝
+2. effect 실행, count : 0
+```
 
-## React Compiler
+**Q2. 버튼 클릭 후(update) 출력 순서는?**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```
+나의 예측:
+버튼 클릭 -> setCount(count+1)호출 -> 리렌더링 발생
+1. 렌더링 시작, count : 1
+3. 렌더링 끝
+2. effect 실행, count : 1
+```
 
-## Expanding the ESLint configuration
+### 정답 확인 후 생각해볼 것
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- effect는 "렌더링 끝" 이후에 실행되나요, 이전에 실행되나요?
+    -> React가 UI를 설계 후 그린 뒤, 사이드 이펙트를 실행하기 위해서 
+
+- 왜 이런 순서로 실행될까요?
+    - React는 화면을 그리는 일을 최우선으로 하고, 그 다음에 사이드 이펙트를 처리하기 때문
+
+
+==============================================================
