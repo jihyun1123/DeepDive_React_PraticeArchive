@@ -1,4 +1,6 @@
-// Practice2.jsx
+// 목표: 생략 / 빈 배열 `[]` / 값 지정 `[count]`의 차이를 체험합니다.
+// 과제: 아래 3가지 버전을 하나씩 테스트해보세요. 버튼을 5번 클릭했을 때 각각 effect가 몇 번 실행되는지 확인하세요.
+
 import { useState, useEffect } from 'react';
 
 function Practice2() {
