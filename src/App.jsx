@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import MemoSearch from './components/memoSearch';
 import MemoContent from './components/MemoContent';
 import MemoCreate from './components/MemoCreate';
-import { createMemo, getMemos, updateMemo } from './api/memos';
+import MemoUpdate from './components/MemoUpdate';
+import { createMemo, deleteMemo, getMemos, updateMemo } from './api/memos';
 import './App.css';
 
 function App() {
@@ -14,6 +15,9 @@ function App() {
   // 로딩 및 에러 상태 관리
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // 선택된 메모 ID 배열 (일괄 삭제용)
+  const [selectedIds, setSelectedIds] = useState([]);
 
   // 메모 불러오기 함수
   const fetchMemos = async (param) => {
@@ -65,21 +69,55 @@ function App() {
     }
   };
 
+  // 특정 메모 삭제 핸들러 ( filter 패턴 )
+  const handleDelete = async (id) => {
+    try {
+      await deleteMemo(id);
+      setMemos(prev => prev.filter(memo => memo.id !== id));
+    } catch (err) {
+      setError('삭제에 실패했습니다');
+    }
+  };
+
+  // 체크박스 선택 토글
+  const handleSelect = (id) => {
+    setSelectedIds(prev => 
+      prev.includes(id) 
+        ? prev.filter(i => i !== id)
+        : [...prev, id]
+    );
+  };
+
+  // 일괄 삭제 핸들러
+  const handleBatchDelete = async() => {
+    // selectedIds가 비어있으면 아무 동작도 하지 않음
+    if(selectedIds.length === 0) return;
+
+    try{
+      // 모든 선택된 메모 삭제
+      await Promise.all(selectedIds.map(id => deleteMemo(id)));
+      // 삭제된 메모를 상태에서 제거, selectedIds가 아닌 id를 가진 메모만 남김
+      setMemos(prev => prev.filter(memo => !selectedIds.includes(memo.id)));
+      setSelectedIds([]);   // 선택된 ID 초기화
+    } catch(err){
+      setError('일괄 삭제에 실패했습니다');
+    }
+  };
+
   return (
-    // 화면 분기 예시 코드 붙임
     <>
     <MemoContent
       memos={memos}
       isLoading={isLoading}
       error={error}
       onRetry={refetch}
-      searchSlot={<MemoSearch onSearch={handleSearch} />}
-    />
-    <MemoCreate 
-      onCreate={handleCreate} 
-    />
-    <MemoUpdate 
+      onCreate={handleCreate}
+      onDelete={handleDelete}
       onUpdate={handleUpdate}
+      selectedIds={selectedIds}
+      onSelect={handleSelect}         // 체크박스 토글 핸들러 전달
+      onBatchDelete={handleBatchDelete} // 일괄 삭제 핸들러 전달
+      searchSlot={<MemoSearch onSearch={handleSearch} />}
     />
     </>
   );
