@@ -1,0 +1,35 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+    gap: 0.5rem;
+}
+
+.pagination button {
+    background-color: #e0e7ff;
+    color: #111827;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background-color: #799cfd;
+    color: #ffffff;
+}
+
+/* 비활성화된 버튼 스타일 */
+.pagination button:disabled {
+    background-color: #f3f4f6;
+    color: #999999;
+    cursor: not-allowed;
+}
+
+/* 활성화된 페이지 버튼 스타일 */
+.pagination button.active {
+    background-color: #799cfd;
+    color: #ffffff;
+}
+

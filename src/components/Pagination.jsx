@@ -1,14 +1,16 @@
 // Pagination.jsx
 // 페이지네이션을 담당하는 컴포넌트
 
+import './style/Pagination.css';
+
 export default function Pagination({
     currentPage,
     totalPages,
     onPageChange,
 }){
     return(
-        <div>
-            <button type="button" onClick={() => onPageChange(currentPage - 1)}
+        <div className="pagination">
+            <button className="prev-button" type="button" onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}>
                 이전
             </button>
@@ -31,7 +33,7 @@ export default function Pagination({
                 })
             }
 
-            <button type="button" onClick={() => onPageChange(currentPage + 1)}
+            <button className="next-button" type="button" onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}>
                 다음
             </button>

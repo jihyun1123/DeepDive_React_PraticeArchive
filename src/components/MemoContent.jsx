@@ -1,9 +1,9 @@
 // MemoContent.jsx
 // MemoContent는 검색 UI를 직접 만들지 않고 부모가 넘겨준 걸 렌더링
 
+import { useState } from 'react';
 import MemoCreate from './MemoCreate';
 import MemoSort from './MemoSort';
-import MemoUpdate from './MemoUpdate';
 import Pagination from './Pagination';
 import './style/MemoContent.css'; 
 
@@ -27,6 +27,16 @@ export default function MemoContent({
     onSortChange,     // 정렬 변경 핸들러
     searchSlot,       // 검색 컴포넌트 슬롯
 }) {
+    const [editingMemo, setEditingMemo] = useState(null);  // 수정 중인 메모
+
+    const handleEditClick = (memo) => {
+        setEditingMemo(memo);
+    };
+
+    const handleEditCancel = () => {
+        setEditingMemo(null);
+    };
+
     return (
         <div className="app">
             <div className="header-box">
@@ -36,9 +46,6 @@ export default function MemoContent({
             <div className='main-box'>
                 {searchSlot}    {/* 검색 컴포넌트 슬롯 부모가 넘겨준 컴포넌트 렌더링 */}
 
-            <MemoCreate 
-                onCreate={onCreate} 
-            />
             <MemoSort
                 sortField={sortField}
                 sortOrder={sortOrder}
@@ -47,8 +54,12 @@ export default function MemoContent({
                 totalPages={totalPages}
                 onPageChange={onPageChange}
             />
-            <MemoUpdate 
+
+            <MemoCreate 
+                onCreate={onCreate}
+                editingMemo={editingMemo}
                 onUpdate={onUpdate}
+                onEditCancel={handleEditCancel}
             />
             {isLoading && <p>로딩 중...</p>}
 
@@ -82,15 +93,22 @@ export default function MemoContent({
                     <ul className="memo-list">
                         {memos.map((memo) => (
                             <li key={memo.id} className="memo-item">
-                                <input
-                                    type="checkbox"
-                                    checked={selectedIds.includes(memo.id)}
-                                    onChange={() => onSelect(memo.id)}
-                                />
-                                {memo.title}
-                                <button type="button" onClick={() => onDelete(memo.id)}>
-                                    삭제
-                                </button>
+                                <div className="memo-content">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedIds.includes(memo.id)}
+                                        onChange={() => onSelect(memo.id)}
+                                    />
+                                    {memo.title}
+                                </div>
+                                <div className="memo-actions-buttons">
+                                    <button className="edit-button" type="button" onClick={() => handleEditClick(memo)}>
+                                        수정
+                                    </button>
+                                    <button className='delete-button' type="button" onClick={() => onDelete(memo.id)}>
+                                        삭제
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>
