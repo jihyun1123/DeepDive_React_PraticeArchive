@@ -2,6 +2,7 @@
 // MemoContent는 검색 UI를 직접 만들지 않고 부모가 넘겨준 걸 렌더링
 
 import MemoCreate from './MemoCreate';
+import MemoSort from './MemoSort';
 import MemoUpdate from './MemoUpdate';
 
 // 메모 내용 표시 컴포넌트
@@ -16,6 +17,12 @@ export default function MemoContent({
     selectedIds,      // 선택된 메모 ID 배열
     onSelect,         // 체크박스 토글 핸들러
     onBatchDelete,    // 일괄 삭제 핸들러
+    currentPage,      // 현재 페이지
+    totalPages,       // 전체 페이지
+    onPageChange,     // 페이지 변경 핸들러
+    sortField = 'createdAt',  // 정렬 필드
+    sortOrder = 'desc',       // 정렬 순서
+    onSortChange,     // 정렬 변경 핸들러
     searchSlot,       // 검색 컴포넌트 슬롯
 }) {
     return (
@@ -25,8 +32,17 @@ export default function MemoContent({
                 <p>React + axios + CRUD 프로젝트</p>
             </div>
             {searchSlot}
+
             <MemoCreate 
                 onCreate={onCreate} 
+            />
+            <MemoSort
+                sortField={sortField}
+                sortOrder={sortOrder}
+                onSortChange={onSortChange}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={onPageChange}
             />
             <MemoUpdate 
                 onUpdate={onUpdate}
@@ -51,14 +67,15 @@ export default function MemoContent({
 
             {!isLoading && !error && memos.length > 0 && (
                 <>
-                    {selectedIds.length > 0 && (
-                        <button
-                            type="button"
-                            onClick={onBatchDelete}
-                        >
-                            선택된 {selectedIds.length}개 삭제
-                        </button>
-                    )}
+                    {/* 일괄 삭제 버튼 */}
+                    <button
+                        className='select-delete-button'
+                        type="button"
+                        onClick={onBatchDelete}
+                        disabled={selectedIds.length === 0} // 선택된 메모가 없으면 비활성화
+                    >
+                        선택된 {selectedIds.length}개 삭제
+                    </button>
                     <ul className="memo-list">
                         {memos.map((memo) => (
                             <li key={memo.id} className="memo-item">
@@ -76,6 +93,8 @@ export default function MemoContent({
                     </ul>
                 </>
             )}
+
+
         </div>
     );
 }
