@@ -148,7 +148,6 @@ function App() {
       onSortChange={handleSortDayChange}
       searchSlot={<MemoSearch onSearch={handleSearch} />}
     />
-    <Pagination/>
     </>
   );
 }

@@ -1,15 +1,12 @@
 // MemoSort.jsx
 // 정렬 및 페이지네이션을 담당하는 컴포넌트
 
-import Pagination from './Pagination';
+import './style/MemoSort.css';
 
 export default function MemoSort({
     sortField,    // 정렬 필드
     sortOrder,    // 정렬 순서
     onSortChange, // 정렬 변경 핸들러
-    currentPage,  // 현재 페이지
-    totalPages,   // 전체 페이지
-    onPageChange, // 페이지 변경 핸들러
 }) {
     return (
         <div className="sort-and-pagination">

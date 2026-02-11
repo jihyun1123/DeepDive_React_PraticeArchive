@@ -4,6 +4,8 @@
 import MemoCreate from './MemoCreate';
 import MemoSort from './MemoSort';
 import MemoUpdate from './MemoUpdate';
+import Pagination from './Pagination';
+import './style/MemoContent.css'; 
 
 // 메모 내용 표시 컴포넌트
 export default function MemoContent({
@@ -31,7 +33,8 @@ export default function MemoContent({
                 <h1 className="app-title">📝 메모 관리 앱</h1>
                 <p>React + axios + CRUD 프로젝트</p>
             </div>
-            {searchSlot}
+            <div className='main-box'>
+                {searchSlot}    {/* 검색 컴포넌트 슬롯 부모가 넘겨준 컴포넌트 렌더링 */}
 
             <MemoCreate 
                 onCreate={onCreate} 
@@ -93,6 +96,8 @@ export default function MemoContent({
                     </ul>
                 </>
             )}
+            <Pagination/>
+            </div>
 
 
         </div>

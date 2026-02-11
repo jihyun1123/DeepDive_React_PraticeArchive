@@ -1,0 +1,33 @@
+.main-box {
+    margin-top: 1rem;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    background: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.header-box {
+    text-align: center;
+    background-color: #799cfd;
+    padding: 1.5rem 2rem;
+    color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 1rem;
+    margin: 0;
+}
+
+.header-box h1 {
+    font-size: 2rem;
+    color: #ffffff;
+}
+
+.header-box p {
+    font-size: 1rem;
+}
+
+
+
+

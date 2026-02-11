@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './style/MemoCreate.css';
 
 export default function MemoCreate({ onCreate }) {
   const [title, setTitle] = useState('');

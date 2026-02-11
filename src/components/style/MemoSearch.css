@@ -1,0 +1,26 @@
+.memo-search-box{
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+.memo-search-box input {
+    width: 86%;
+    max-height: 50px;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-right: 1rem;
+}
+
+.memo-search-box button {
+    background-color: #799cfd;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+}

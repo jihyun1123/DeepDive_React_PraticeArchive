@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './style/MemoSearch.css';
 
 export default function MemoSearch({ onSearch }) {
   const [inputValue, setInputValue] = useState('');
@@ -16,13 +17,13 @@ export default function MemoSearch({ onSearch }) {
   };
 
   return (
-    <div className="memo-search">
+    <div className="memo-search-box">
       <input
         type="text"
         value={inputValue}
         onChange={(event) => setInputValue(event.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="검색어를 입력하세요"
+        placeholder="메모 검색..."
       />
       <button type="button" onClick={handleSearch}>
         검색
