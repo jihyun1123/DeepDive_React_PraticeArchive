@@ -1,17 +1,32 @@
-{/*import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-export function memoSearch(){
-  // 입력 중인 값
+export default function MemoSearch({ onSearch }) {
   const [inputValue, setInputValue] = useState('');
-  // 적용된 검색어
-  const [searchQuery, setSearchQuery] = useState('');
 
-  const handleSearcy = () => {
-    setSearchQuery(inputValue);   // 버튼 클릭 시에만 적용
+  const handleSearch = () => {
+    if (onSearch) {
+      onSearch(inputValue);
+    }
   };
 
-  useEffect(() => {
-   fetchMemos({ q: searchQuery });
-}, [searchQuery]);
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
-}*/}
+  return (
+    <div className="memo-search">
+      <input
+        type="text"
+        value={inputValue}
+        onChange={(event) => setInputValue(event.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder="검색어를 입력하세요"
+      />
+      <button type="button" onClick={handleSearch}>
+        검색
+      </button>
+    </div>
+  );
+}
