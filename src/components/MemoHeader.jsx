@@ -1,3 +1,4 @@
+import './MemoHeader.css';
 
 export default function MemoHeader(){
     return(

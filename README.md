@@ -11,8 +11,7 @@ src
         - memos.jsx
 
     -components
-        - memoCreate.jsx
-        - memoUpdate.jsx
+        - memoCreateAndUpdate.jsx
         - memoSearch.jsx
         - memoSort.jsx
         - memoItemList.jsx

@@ -2,14 +2,23 @@
 // 해당 메모가 삭제되도록 하는 컴포넌트
 
 
-export default function DeleteMemo({id, onDelete}){
+export default function DeleteMemo({ id, onDelete }) {
     const handelClick = () => {
         onDelete(id);   // 부모 호출
     }
 
-    return(
+    return (
         <div className="memo-delete-box">
-            <button onClick={handelClick}>삭제</button>
+            <button onClick={handelClick}
+                style={{
+                    background: '#cd4e4e',
+                    color: 'white',
+                    padding: '0.5rem 1rem',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                }}
+            >삭제</button>
         </div>
     );
 

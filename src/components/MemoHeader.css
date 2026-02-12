@@ -1,0 +1,14 @@
+.memo-header {
+  background: linear-gradient(135deg, #556fe2 20%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 1rem;
+}
+
+.memo-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 0;
+}
