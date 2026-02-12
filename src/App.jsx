@@ -18,6 +18,10 @@ function App() {
   // 에러 상태 관리
   const [error, setError] = useState(null);
 
+  // 로딩 상태 관리
+  const [isLoading, setIsLoading] = useState(false);
+
+
   // 메모 검색 상태 관리
   // 만약 검색창에 "면접"이라고 입력하면, searchQuery는 "면접"이 되어서 부모에게 전달됨
   const [searchQuery, setSearchQuery] = useState(''); 
@@ -66,12 +70,32 @@ function App() {
   }
 
   // 렌더링 후 메모 불러오기
-  useEffect(() => {
-    const fetchMemos = async () => {
+  const fetchMemos = async () => {
+    setIsLoading(true);
+    try {
       const data = await getMemos();
-      setMemos(data.items);
+      console.log('API 응답:', data); // 디버깅용
+      
+      // API 응답 형식에 따라 처리
+      if (data.items) {
+        setMemos(data.items);
+      } else if (Array.isArray(data)) {
+        setMemos(data);
+      } else {
+        console.warn('예상치 못한 API 응답 형식:', data);
+        setMemos([]);
+      }
+      setError(null);
+    } catch (err) {
+      console.error('메모 로드 실패:', err);
+      setError('메모를 불러오는데 실패했습니다');
+    } finally {
+      setIsLoading(false);
     }
-    fetchMemos(); 
+  };
+
+  useEffect(() => {
+    fetchMemos();
   }, []);
 
   // 검색어에 따라 필터링된 메모
@@ -93,10 +117,17 @@ function App() {
       <MemoCreateAndUpdate 
         onCreate={handleCreate} 
         onUpdate={handleUpdate} 
-        editingMemo={editingMemo} // 현재 수정 중인 메모 전달
+        editingMemo={editingMemo}
         onEditCancel={handleEditCancelClick}
       />
-      <MemoItemList memos={filterMemos} onDelete={handleDelete} onEditClick={handleEditClick} />
+      <MemoItemList 
+        memos={filterMemos} 
+        onDelete={handleDelete} 
+        onEditClick={handleEditClick}
+        isLoading={isLoading}
+        error={error}
+        onRefetch={fetchMemos}
+      />
     </>
   )
 }
