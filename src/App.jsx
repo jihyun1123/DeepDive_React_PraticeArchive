@@ -19,7 +19,7 @@ function App() {
 
   // 메모 검색 상태 관리
   // 만약 검색창에 "면접"이라고 입력하면, searchQuery는 "면접"이 되어서 부모에게 전달됨
-  const [searchQuery, setSearchQuery] = useState(''); 
+  const [searchQuery, setSearchQuery] = useState('');  
 
   // 메모 추가 핸들러
   const handleCreate = async (title, content) => {
@@ -30,6 +30,8 @@ function App() {
       setError('추가에 실패했습니다');
     }
   };
+
+  // 메모 삭제 핸들러
   const handleDelete = async (id) => {
     try {
       await deleteMemo(id);
@@ -73,7 +75,7 @@ function App() {
   }, []);
 
   // 검색어에 따라 필터링된 메모
-  const filterMemos = memos.filter(memo =>
+  const filterMemos = emos.filter(memo =>
     memo.title.includes(searchQuery) ||
     memo.content.includes(searchQuery)
   );

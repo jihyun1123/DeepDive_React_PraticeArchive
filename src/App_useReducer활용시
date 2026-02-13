@@ -1,0 +1,132 @@
+# 기존 Memo-App에서 handle함수 대신 userReducer을 사용
+## 🤔 useReducer을 사용하면 좋은 이유 3가지
+1. 상태로직의 복잡함을 줄여줌
+2. 여러 상태를 예측 할 수 있음
+3. 유지보수가 쉬워짐
+
+## App.jsx에서 활용하는 상태
+ - memo
+ - editingMemo
+ - error
+ - searchQuery
+
+### ✅ 언제 useReducer를 쓰는 게 좋을까?
+useReducer는 이런 상황에서 빛남:
+1. 상태가 여러 개이고 서로 연관되어 있을 때
+2. 상태 변경 로직이 복잡할 때
+3. CRUD 같은 “행동(action)” 중심 구조일 때 -> choice!
+4. 상태 전이를 명확하게 관리하고 싶을 때
+
+
+=============================================
+
+## 구조 정리
+### 1️⃣ initialState 정의
+
+const initialState = {
+    memos: [],
+    editingMemo: null,
+    error: null,
+    searchQuery: '',
+};
+
+### 2️⃣ reducer 만들기
+function memoReducer(state, action){
+    switch(action.type){
+
+        // 📌 서버에서 메모 전체를 불러와서 상태에 저장
+        // ex: dispatch({ type: 'SET_MEMOS', payload: data })
+        case 'SET_MEMOS':
+            return { 
+                ...state,   // 기존 상태 유지
+                memos: action.payload,  // memos만 새 데이터로 교체
+            };
+
+        // 📌 새로운 메모 추가
+        // ex: dispatch({ type: 'ADD_MEMO', payload: createdMemo })
+        case 'ADD_MEMOS':
+            return {
+                // 기존 배열을 유지하면서 맨 앞에 새 메모 추가
+                // (불변성 유지 → 새로운 배열 생성)
+                ...state,
+                memos: [action.payload, ...state.memos]   
+            };
+
+        // 📌 특정 메모 삭제
+        // ex: dispatch({ type: 'DELETE_MEMO', payload: id })
+        case 'DELETE_MEMOS':
+            return{
+                ...state,
+                memos: state.memos.filter(m => m.id !== action.payload)
+            }
+
+        // 📌 메모 수정
+        // ex: dispatch({ type: 'UPDATE_MEMO', payload: updatedMemo })
+        // action.payload : 수정된 "새로운 메모 객체" 전체
+        case 'UPDATE_MEMOS':
+            return{
+                ...state,
+                // 기존 객체를 건드리지않고 새 객체인 action.payload로 교체
+                memos: state.memos.map(m => m.id === action.payload.id 
+                    ? action.payload : m    
+                ),  
+
+                // 수정 완료 후 수정 모드 종료
+                editingMemo: null,
+            };
+            
+         // 📌 수정 모드 진입
+        // ex: dispatch({ type: 'SET_EDITING', payload: memo })
+        case 'SET_EDITING':
+            return{
+                ...state,
+                editingMemo: action.payload,    // 수정하려는 메모 객체
+            }
+
+        // 📌 검색어 상태 변경
+        // ex: dispatch({ type: 'SET_SEARCH', payload: query })
+        case 'SET_SEARCH':
+            return{
+                ...state,
+                searchQuery: action.payload,
+            };
+
+        // 📌 에러 메시지 설정
+        // ex: dispatch({ type: 'SET_ERROR', payload: '에러 발생' })
+        case 'SET_ERROR':
+            return{
+                ...state,
+                error: action.payload,
+            }
+
+        // 📌 정의되지 않은 action이 들어오면
+        // 기존 상태 그대로 반환 (안전장치)
+            default:
+                return state;
+    }
+}
+
+### 3️⃣ useReducer 적용
+const [state, dispatch] = useReducer(memoReducer, initialState);
+
+
+### 🔥 핸들러 수정
+
+✅ 메모 추가
+
+
+✅ 메모 삭제
+
+
+✅ 메모 수정
+
+
+✅ 메모 수정 모드 진입
+
+
+✅ 메모 검색
+
+
+✅ 초기 데이터 로딩
+
+
