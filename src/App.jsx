@@ -24,8 +24,8 @@ function App() {
   // 메모 추가 핸들러
   const handleCreate = async (title, content) => {
     try {
-      const newMemo = await createMemo({ title, content });
-      setMemos(prev => [newMemo, ...prev]);  // 앞에 추가
+      const created = await createMemo({ title, content });
+      setMemos(prev => [created, ...prev]);  // 앞에 추가
     } catch (error) {
       setError('추가에 실패했습니다');
     }
@@ -62,12 +62,13 @@ function App() {
     setEditingMemo(null);
   }
 
+  const fetchMemos = async () => {
+    const data = await getMemos();
+    setMemos(data.items);
+  };
+
   // 렌더링 후 메모 불러오기
   useEffect(() => {
-    const fetchMemos = async () => {
-      const data = await getMemos();
-      setMemos(data.items);
-    }
     fetchMemos();
   }, []);
 
