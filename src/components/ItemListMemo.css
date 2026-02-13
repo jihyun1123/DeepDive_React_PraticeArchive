@@ -9,15 +9,13 @@
   background: white;
   border: 2px solid #e0e0e0;
   border-radius: 12px;
-  padding: 1.5rem;
-  transition: all 0.3s ease;
+  padding: 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .memo-item:hover {
   border-color: #667eea;
   box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
-  transform: translateY(-5px);
 }
 
 .memo-item h3 {
@@ -42,16 +40,6 @@
   gap: 0.5rem;
 }
 
-.memo-edit-button{
-    background: #4ecdc4;
-    color: white;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 8px;
-    margin-top: 0.5rem;
-    cursor: pointer;
-}
-
 .memo-actions button {
   flex: 1;
   padding: 0.5rem;
@@ -60,40 +48,22 @@
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 
 .memo-delete-btn {
-  background: #ff6b6b;
+  background: #f57474;
   color: white;
 }
 
+
 .memo-delete-btn:hover {
   background: #ff5252;
-  transform: translateY(-2px);
 }
 
 .memo-edit-btn {
   background: #4ecdc4;
   color: white;
-}
-
-.memo-edit-btn:hover {
-  background: #45b7aa;
-  transform: translateY(-2px);
-}
-
-/* 로딩 상태 */
-.memo-list-container {
-  padding: 2rem;
-  min-height: 300px;
-}
-
-.memo-loading {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #667eea;
-  padding: 3rem;
+  padding: 0.5rem;
   font-weight: 600;
 }
 
@@ -146,7 +116,6 @@
 
 .memo-edit-btn:hover {
   background: #45b7aa;
-  transform: translateY(-2px);
 }
 
 .memo-empty {

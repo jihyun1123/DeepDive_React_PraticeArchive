@@ -7,7 +7,6 @@ import MemoSearch from './components/MemoSearch'
 
 // API 함수들 임포트
 import { createMemo, deleteMemo, getMemos, updateMemo } from './api/memos'
-
 function App() {
   // 현재 메모의 값과 상태를 관리
   const [memos, setMemos] = useState([]);
@@ -17,10 +16,6 @@ function App() {
 
   // 에러 상태 관리
   const [error, setError] = useState(null);
-
-  // 로딩 상태 관리
-  const [isLoading, setIsLoading] = useState(false);
-
 
   // 메모 검색 상태 관리
   // 만약 검색창에 "면접"이라고 입력하면, searchQuery는 "면접"이 되어서 부모에게 전달됨
@@ -35,8 +30,6 @@ function App() {
       setError('추가에 실패했습니다');
     }
   };
-
-  // 메모 삭제 핸들러
   const handleDelete = async (id) => {
     try {
       await deleteMemo(id);
@@ -70,31 +63,11 @@ function App() {
   }
 
   // 렌더링 후 메모 불러오기
-  const fetchMemos = async () => {
-    setIsLoading(true);
-    try {
-      const data = await getMemos();
-      console.log('API 응답:', data); // 디버깅용
-      
-      // API 응답 형식에 따라 처리
-      if (data.items) {
-        setMemos(data.items);
-      } else if (Array.isArray(data)) {
-        setMemos(data);
-      } else {
-        console.warn('예상치 못한 API 응답 형식:', data);
-        setMemos([]);
-      }
-      setError(null);
-    } catch (err) {
-      console.error('메모 로드 실패:', err);
-      setError('메모를 불러오는데 실패했습니다');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchMemos = async () => {
+      const data = await getMemos();
+      setMemos(data.items);
+    }
     fetchMemos();
   }, []);
 
@@ -117,17 +90,10 @@ function App() {
       <MemoCreateAndUpdate 
         onCreate={handleCreate} 
         onUpdate={handleUpdate} 
-        editingMemo={editingMemo}
+        editingMemo={editingMemo} // 현재 수정 중인 메모 전달
         onEditCancel={handleEditCancelClick}
       />
-      <MemoItemList 
-        memos={filterMemos} 
-        onDelete={handleDelete} 
-        onEditClick={handleEditClick}
-        isLoading={isLoading}
-        error={error}
-        onRefetch={fetchMemos}
-      />
+      <MemoItemList memos={filterMemos} onDelete={handleDelete} onEditClick={handleEditClick} />
     </>
   )
 }
