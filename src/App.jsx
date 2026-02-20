@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useReducer, useEffect } from 'react'
 import './App.css'
 import MemoCreateAndUpdate from './components/memoCreateAndUpdate.jsx'
 import MemoHeader from './components/MemoHeader'
@@ -7,27 +7,84 @@ import MemoSearch from './components/MemoSearch'
 
 // API 함수들 임포트
 import { createMemo, deleteMemo, getMemos, updateMemo } from './api/memos'
+
+// 📌 initialState 정의
+const initialState = {
+  memos: [],
+  editingMemo: null,
+  error: null,
+  searchQuery: '',
+};
+
+// 📌 reducer 함수 정의
+function memoReducer(state, action) {
+  switch (action.type) {
+    // 서버에서 메모 전체를 불러와서 상태에 저장
+    case 'SET_MEMOS':
+      return {
+        ...state,
+        memos: action.payload,
+      };
+
+    // 새로운 메모 추가
+    case 'ADD_MEMOS':
+      return {
+        ...state,
+        memos: [action.payload, ...state.memos],
+      };
+
+    // 특정 메모 삭제
+    case 'DELETE_MEMOS':
+      return {
+        ...state,
+        memos: state.memos.filter(m => m.id !== action.payload),
+      };
+
+    // 메모 수정
+    case 'UPDATE_MEMOS':
+      return {
+        ...state,
+        memos: state.memos.map(m => m.id === action.payload.id ? action.payload : m),
+        editingMemo: null,
+      };
+
+    // 수정 모드 진입
+    case 'SET_EDITING':
+      return {
+        ...state,
+        editingMemo: action.payload,
+      };
+
+    // 검색어 상태 변경
+    case 'SET_SEARCH':
+      return {
+        ...state,
+        searchQuery: action.payload,
+      };
+
+    // 에러 메시지 설정
+    case 'SET_ERROR':
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    default:
+      return state;
+  }
+}
+
 function App() {
-  // 현재 메모의 값과 상태를 관리
-  const [memos, setMemos] = useState([]);
-
-  // 수정 중인 메모 상태 관리
-  const [editingMemo, setEditingMemo] = useState(null);
-
-  // 에러 상태 관리
-  const [error, setError] = useState(null);
-
-  // 메모 검색 상태 관리
-  // 만약 검색창에 "면접"이라고 입력하면, searchQuery는 "면접"이 되어서 부모에게 전달됨
-  const [searchQuery, setSearchQuery] = useState('');  
+  // 📌 useReducer 적용
+  const [state, dispatch] = useReducer(memoReducer, initialState);
 
   // 메모 추가 핸들러
   const handleCreate = async (title, content) => {
     try {
       const created = await createMemo({ title, content });
-      setMemos(prev => [created, ...prev]);  // 앞에 추가
+      dispatch({ type: 'ADD_MEMOS', payload: created });
     } catch (error) {
-      setError('추가에 실패했습니다');
+      dispatch({ type: 'SET_ERROR', payload: '추가에 실패했습니다' });
     }
   };
 
@@ -35,9 +92,9 @@ function App() {
   const handleDelete = async (id) => {
     try {
       await deleteMemo(id);
-      setMemos(prev => prev.filter(memo => memo.id !== id));
+      dispatch({ type: 'DELETE_MEMOS', payload: id });
     } catch (error) {
-      setError('삭제에 실패했습니다');
+      dispatch({ type: 'SET_ERROR', payload: '삭제에 실패했습니다' });
     }
   };
 
@@ -45,46 +102,45 @@ function App() {
   const handleUpdate = async (id, changes) => {
     try {
       const updated = await updateMemo(id, changes);
-      setMemos(prev => prev.map(memo =>
-        memo.id === id ? updated : memo
-      ));
-      setEditingMemo(null); // 수정 모드 종료
+      dispatch({ type: 'UPDATE_MEMOS', payload: updated });
     } catch (error) {
-      setError('수정에 실패했습니다');
+      dispatch({ type: 'SET_ERROR', payload: '수정에 실패했습니다' });
     }
   };
 
   // 수정 모드 진입
   const handleEditClick = (memo) => {
-    setEditingMemo(memo); // 수정할 메모 설정
+    dispatch({ type: 'SET_EDITING', payload: memo });
   };
 
   // 수정 취소
   const handleEditCancelClick = () => {
-    setEditingMemo(null);
-  }
-
-  const fetchMemos = async () => {
-    const data = await getMemos();
-    setMemos(data.items);
+    dispatch({ type: 'SET_EDITING', payload: null });
   };
-
-  // 렌더링 후 메모 불러오기
-  useEffect(() => {
-    fetchMemos();
-  }, []);
-
-  // 검색어에 따라 필터링된 메모
-  const filterMemos = emos.filter(memo =>
-    memo.title.includes(searchQuery) ||
-    memo.content.includes(searchQuery)
-  );
-
 
   // 메모 검색 핸들러
   const handleSearch = (query) => {
-    setSearchQuery(query);
-  }
+    dispatch({ type: 'SET_SEARCH', payload: query });
+  };
+
+  // 검색어에 따라 필터링된 메모
+  const filteredMemos = state.memos.filter(memo =>
+    memo.title.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+    memo.content.toLowerCase().includes(state.searchQuery.toLowerCase())
+  );
+
+  // 렌더링 후 메모 불러오기 (초기 데이터 로딩)
+  useEffect(() => {
+    const loadMemos = async () => {
+      try {
+        const data = await getMemos();
+        dispatch({ type: 'SET_MEMOS', payload: data.items });
+      } catch (error) {
+        dispatch({ type: 'SET_ERROR', payload: '메모를 불러오는데 실패했습니다' });
+      }
+    };
+    loadMemos();
+  }, []);
 
   return (
     <>
@@ -93,10 +149,10 @@ function App() {
       <MemoCreateAndUpdate 
         onCreate={handleCreate} 
         onUpdate={handleUpdate} 
-        editingMemo={editingMemo} // 현재 수정 중인 메모 전달
+        editingMemo={state.editingMemo}
         onEditCancel={handleEditCancelClick}
       />
-      <MemoItemList memos={filterMemos} onDelete={handleDelete} onEditClick={handleEditClick} />
+      <MemoItemList memos={filteredMemos} onDelete={handleDelete} onEditClick={handleEditClick} />
     </>
   )
 }
