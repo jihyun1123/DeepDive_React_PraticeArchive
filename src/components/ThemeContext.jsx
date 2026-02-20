@@ -25,42 +25,47 @@
 7. var(--bg-color)를 사용하는 모든 요소가 자동으로 다크 색상 적용!
 
 */ 
-ㅎ
-import { createContext, useContext, useState, useEffect } from "react";
+
+import { createContext, useContext, useState, useEffect} from "react";
 
 // Context 생성
 const ThemeContext = createContext();
 
+// Provider 컴포넌트 생성
+// children은 ThemeProvider로 감싸진 컴포넌트들
 export function ThemeProvider({children}){
     const [theme, setTheme] = useState(() => {
+        // localStorage에서 theme 값을 가져와서 초기값으로 사용
         const savedTheme = localStorage.getItem('theme');
-        return savedTheme === 'dark';
+        return savedTheme === 'dark';   // localStorage에 저장된 테마가 'dark'이면 true, 아니면 false
     });
 
     // 테마 토글 함수
     const toggleTheme = () => {
-        setTheme(prev => !prev);    // 이전 테마 상태를 반전시킴
+        setTheme(prev => !prev);    // 이전 테마 상태를 반전시킴    
     };
 
     // 테마 상태가 변경될 때마다 localStorage에 저장
     useEffect(() => {
-        const themeValue = theme ? 'dark' : 'light';
-        localStorage.setItem('theme', themeValue);
-        document.documentElement.setAttribute('data-theme', themeValue); // HTML 요소에 테마 속성 추가 (CSS에서 활용)
-    }, [theme]);
+        const currentTheme = theme ? 'dark' : 'light';
+        localStorage.setItem('theme', currentTheme);
+        document.documentElement.setAttribute('data-theme', currentTheme);
+    }, [theme]);    // theme 상태가 변경될 때마다 실행하기 위해 useEffect 사용
 
-    return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    return(
+        // Context.Provider로 theme와 toggleTheme 함수를 전달하여 하위 컴포넌트들이 사용할 수 있도록 함
+        <ThemeContext.Provider value={{theme, toggleTheme}}>
             {children}
         </ThemeContext.Provider>
-    );
+    )
 }
 
-// 커스텀 훅으로 Context 사용
+// 커스텀 Hook 생성
 export function useTheme(){
     const context = useContext(ThemeContext);
     if(!context){
-        throw new Error('useTheme must be used within a ThemeProvider');
+        throw new Error('useTheme는 ThemeProvider 내에서 사용되어야 합니다');
     }
     return context;
 }
+

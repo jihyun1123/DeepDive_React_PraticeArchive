@@ -6,6 +6,7 @@ export default function ToggleButton(){
 
     return(
         <button className="toggle-button" onClick={toggleTheme}>
+            {/*지금 다크모드(true)면 라이트 모드로 전환 버튼 보여줌*/}
             {theme ? '라이트 모드로 전환' : '다크 모드로 전환'}
         </button>
     )

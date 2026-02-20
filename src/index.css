@@ -15,7 +15,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 다크 모드 색상 변수 */
+/* 다크 모드 색상 변수, 
+  [data-theme='dark'] : css 속성 선택자로 html 태그에 data-theme="dark"가 있으면 
+  이 안의 CSS 변수를 적용
+*/
 [data-theme='dark'] {
   --bg-color: #1a1a1a;  /* 다크 모드 배경색 */
   --text-color: #ffffff; /* 다크 모드 텍스트 색상 */
