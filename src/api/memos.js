@@ -6,6 +6,12 @@ export const getMemos = async (params = {}) => {
   return response.data;
 };
 
+// 단일 조회
+export const getMemo = async (id) => {
+  const response = await client.get(`/memos/${id}`);
+  return response.data;
+};
+
 // 생성
 export const createMemo = async (payload) => {
   const response = await client.post('/memos', payload);

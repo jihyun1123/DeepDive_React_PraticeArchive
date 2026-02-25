@@ -1,0 +1,28 @@
+.memo-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.memo-pagination button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.memo-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.memo-pagination button:not(:disabled):hover {
+  border-color: #667eea;
+  transform: translateY(-1px);
+}

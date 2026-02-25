@@ -1,0 +1,28 @@
+.notfound {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--card-bg);
+  border-radius: 16px;
+  border: 2px dashed var(--border-color);
+}
+
+.notfound h2 {
+  font-size: 3rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-color);
+}
+
+.notfound p {
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.notfound a {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  background: #667eea;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}

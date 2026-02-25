@@ -20,10 +20,10 @@ export default function MemoCreate({onCreate, onUpdate, editingMemo, onEditCance
 
     const handleAdd = () => {
         // 수정 모드인지 확인
-        if(editingMemo){
-            onUpdate(editingMemo.id, { title, content });
-        }else{
-            onCreate(title, content);
+        if (editingMemo) {
+            onUpdate?.(editingMemo.id, { title, content });
+        } else {
+            onCreate?.(title, content);
         }
         setTitle("");
         setContent("");

@@ -1,0 +1,61 @@
+.memo-detail {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 2.5rem;
+  border: 2px solid var(--border-color);
+}
+
+.memo-detail-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.memo-detail-header h2 {
+  font-size: 2rem;
+  color: var(--text-color);
+}
+
+.memo-detail p {
+  color: var(--text-color);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.memo-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.memo-detail-actions button,
+.memo-detail-link {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: #667eea;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.memo-detail-actions button {
+  background: #f57474;
+}
+
+.memo-detail-actions button:hover,
+.memo-detail-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.memo-detail-status {
+  padding: 2rem;
+  text-align: center;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 2px dashed var(--border-color);
+}

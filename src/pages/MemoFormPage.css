@@ -1,0 +1,13 @@
+.memo-form-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.memo-form-status {
+  padding: 1rem 1.5rem;
+  background: var(--card-bg);
+  border-radius: 10px;
+  border: 2px dashed var(--border-color);
+  text-align: center;
+}

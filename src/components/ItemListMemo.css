@@ -26,6 +26,15 @@
   font-size: 1.2rem;
 }
 
+.memo-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.memo-title-link:hover {
+  text-decoration: underline;
+}
+
 .memo-item p {
   margin-bottom: 1rem;
   color: var(--text-color);
@@ -42,7 +51,8 @@
   gap: 0.5rem;
 }
 
-.memo-actions button {
+.memo-actions button,
+.memo-actions a {
   flex: 1;
   padding: 0.5rem;
   border: none;
@@ -50,13 +60,14 @@
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
+  text-align: center;
+  text-decoration: none;
 }
 
 .memo-delete-btn {
   background: #f57474;
   color: white;
 }
-
 
 .memo-delete-btn:hover {
   background: #ff5252;

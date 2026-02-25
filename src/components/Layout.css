@@ -1,0 +1,47 @@
+.memo-nav {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.25rem 0;
+  margin: 0.5rem 0 1.5rem;
+  justify-content: center;
+}
+
+.memo-nav-link {
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: 2px solid var(--border-color);
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background: var(--card-bg);
+}
+
+.memo-nav-link:hover {
+  border-color: #667eea;
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.2);
+  transform: translateY(-1px);
+}
+
+.memo-nav-link.is-active {
+  border-color: #667eea;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.memo-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .memo-nav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .memo-nav-link {
+    text-align: center;
+  }
+}
